@@ -7,7 +7,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.Scanner;
+//import java.util.Scanner;
 public class Lox {
     static boolean hadError = false;
     public static void main(String[] args) throws IOException {
@@ -40,10 +40,10 @@ public class Lox {
   }
 
    private  static  void  run ( String  source ) {
-     Scanner  scanner = new  Scanner ( source );
-     List < Token > tokens = scanner . scanTokens (); 
+     craftinginterpreters.lox.Scanner  scanner = new  craftinginterpreters.lox.Scanner(source);
+     List < Token > tokens = scanner.scanTokens(); 
      for ( Token token : tokens ) {
-       System . out . println ( token ); 
+       System.out.println(token); 
     } 
   }
 
