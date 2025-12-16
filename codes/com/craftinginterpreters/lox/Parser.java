@@ -154,6 +154,5 @@ public class Parser {
 
     private static class ParseError extends RuntimeException {}
     
-    // エラー回復用のメソッド（オプションだが、今回はスキップ）
-    // private void synchronize() { ... }
+    
 }
