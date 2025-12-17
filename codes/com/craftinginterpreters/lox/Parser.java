@@ -154,5 +154,32 @@ public class Parser {
 
     private static class ParseError extends RuntimeException {}
     
-    
+    public Expr parse() {
+        try {
+            return expression();
+        } catch (ParseError error) {
+            return null; // エラー時は Expr を返さない
+        }
+    }
+
+    private void synchronize() {
+        advance();
+
+        while (!isAtEnd()) {
+            if (previous().type == SEMICOLON) return; // ステートメントの区切りを見つけたら回復
+
+            switch (peek().type) {
+                case CLASS:
+                case FUN:
+                case VAR:
+                case FOR:
+                case IF:
+                case WHILE:
+                case PRINT:
+                case RETURN:
+                    return; // 新しいステートメントのキーワードを見つけたら回復
+            }
+            advance();
+        }
+    }
 }

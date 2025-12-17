@@ -14,12 +14,13 @@ public class GenerateAst {
         }
         String outputDir = args[0];
         
-        defineAst(outputDir, "Expr", Arrays.asList(
-            "Binary   : Expr left, Token operator, Expr right",
-            "Grouping : Expr expression",
-            "Literal  : Object value",
-            "Unary    : Token operator, Expr right"
-        ));
+        List<String> exprTypes = Arrays.asList(
+        "Binary   : Expr left, Token operator, Expr right",
+        "Grouping : Expr expression",
+        "Literal  : Object value",
+        "Unary    : Token operator, Expr right"
+    );
+        defineAst(outputDir, "Expr", exprTypes);
     }
 
     private static void defineAst(
@@ -37,10 +38,9 @@ public class GenerateAst {
         
         // ★ ステップ3: defineAst内でVisitorインターフェースを定義
         defineVisitor(writer, baseName, types);
-        
-        // ★ ステップ4: 基底クラスに accept 抽象メソッドを追加
-        writer.println("  abstract <R> R accept(Visitor<R> visitor);");
+
         writer.println();
+        writer.println("  abstract <R> R accept(Visitor<R> visitor);");
         
         // 各サブクラスを定義 (ステップ5のaccept実装もここに含まれる)
         for (String type : types) {
@@ -61,13 +61,11 @@ public class GenerateAst {
 
         for (String type : types) {
             String typeName = type.split(":")[0].trim();
-            writer.println(
-                "    R visit" + typeName + baseName + "(" +
+            writer.println(" R visit" + typeName + baseName + "(" +
                 typeName + " " + baseName.toLowerCase() + ");");
         }
 
         writer.println("  }");
-        writer.println();
     }
 
     private static void defineType(
